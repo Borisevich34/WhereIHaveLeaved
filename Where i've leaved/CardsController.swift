@@ -21,7 +21,7 @@ class CardsController: UITableViewController, CardDelegate {
     
     var formatter : DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "E yyyy-MM-dd"
+        formatter.dateFormat = "EEEE, MMM d, yyyy"
         return formatter
     }()
 

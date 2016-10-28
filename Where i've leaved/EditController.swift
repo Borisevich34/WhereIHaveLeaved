@@ -100,6 +100,13 @@ class EditController: UIViewController {
         
     }
     
+    @IBAction func locationDonePressed(_ sender: AnyObject) {
+    }
+    @IBAction func landlordDonePressed(_ sender: AnyObject) {
+    }
+    @IBAction func monthlyRentDonePressed(_ sender: AnyObject) {
+    }
+    
     
 
     override func didReceiveMemoryWarning() {
