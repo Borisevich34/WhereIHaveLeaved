@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9073F341DCFC03B00885675 /* CoreDataForCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9073F331DCFC03B00885675 /* CoreDataForCards.swift */; };
 		E996C4EE1DB8E75E00D38F2F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E996C4ED1DB8E75E00D38F2F /* MapKit.framework */; };
-		E996C4F01DB8FE1100D38F2F /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996C4EF1DB8FE1100D38F2F /* MapController.swift */; };
 		E9A909A61DB75F4B003A3E6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A909A51DB75F4B003A3E6D /* AppDelegate.swift */; };
 		E9A909AE1DB75F4B003A3E6D /* Where_i_ve_leaved.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A909AC1DB75F4B003A3E6D /* Where_i_ve_leaved.xcdatamodeld */; };
 		E9A909B01DB75F4B003A3E6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9A909AF1DB75F4B003A3E6D /* Assets.xcassets */; };
@@ -21,8 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E9073F331DCFC03B00885675 /* CoreDataForCards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataForCards.swift; sourceTree = "<group>"; };
 		E996C4ED1DB8E75E00D38F2F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		E996C4EF1DB8FE1100D38F2F /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		E9A909A21DB75F4B003A3E6D /* Where i've leaved.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Where i've leaved.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9A909A51DB75F4B003A3E6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9A909AD1DB75F4B003A3E6D /* Where_i_ve_leaved.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Where_i_ve_leaved.xcdatamodel; sourceTree = "<group>"; };
@@ -84,9 +84,9 @@
 				E9A909AC1DB75F4B003A3E6D /* Where_i_ve_leaved.xcdatamodeld */,
 				E9A909BC1DB776A3003A3E6D /* EditController.swift */,
 				E9A909C11DB7A473003A3E6D /* CardsController.swift */,
+				E9073F331DCFC03B00885675 /* CoreDataForCards.swift */,
 				E9A909C31DB7A4BD003A3E6D /* Card.swift */,
 				E9A909C51DB7A66A003A3E6D /* CardCell.swift */,
-				E996C4EF1DB8FE1100D38F2F /* MapController.swift */,
 			);
 			path = "Where i've leaved";
 			sourceTree = "<group>";
@@ -118,7 +118,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Pavel Borisevich";
 				TargetAttributes = {
 					E9A909A11DB75F4B003A3E6D = {
@@ -169,10 +169,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9A909C61DB7A66A003A3E6D /* CardCell.swift in Sources */,
-				E996C4F01DB8FE1100D38F2F /* MapController.swift in Sources */,
 				E9A909C41DB7A4BD003A3E6D /* Card.swift in Sources */,
 				E9A909AE1DB75F4B003A3E6D /* Where_i_ve_leaved.xcdatamodeld in Sources */,
 				E9A909BD1DB776A3003A3E6D /* EditController.swift in Sources */,
+				E9073F341DCFC03B00885675 /* CoreDataForCards.swift in Sources */,
 				E9A909C21DB7A473003A3E6D /* CardsController.swift in Sources */,
 				E9A909A61DB75F4B003A3E6D /* AppDelegate.swift in Sources */,
 			);
@@ -218,6 +218,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -267,6 +268,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

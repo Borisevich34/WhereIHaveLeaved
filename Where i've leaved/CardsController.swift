@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol CardDelegate {
-    func addNewCard(card: Card)
+    
     func deleteCard(index: Int)
     func editCard(index: Int, card: Card)
 }
@@ -25,82 +25,39 @@ class CardsController: UITableViewController, CardDelegate {
         return formatter
     }()
 
-    
-    func addNewCard(card: Card) {
-        do {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            
-            let coreCard = NSEntityDescription.insertNewObject(forEntityName: "Card", into: context)
-            
-            coreCard.setValue(card.date, forKey: "date")
-            coreCard.setValue(card.isCurrent, forKey: "isCurrent")
-            coreCard.setValue(card.isFromEdit, forKey: "isFromEdit")
-            coreCard.setValue(card.landlord, forKey: "landlord")
-            coreCard.setValue(card.location, forKey: "location")
-            coreCard.setValue(card.monthlyRent, forKey: "monthlyRent")
-            
-            try context.save()
-            
-            cards.insert(card, at: 0)
-            tableView.reloadData()
-        }
-        catch {
-            print("CoreData error!!!")
-        }
+    @IBAction func addNewCard(_ sender: UIBarButtonItem) {
+        
+        let card = Card()
+        
+        card.date = Date()
+        card.isCurrent = false
+        card.landlord = "Landlord"
+        card.location = "Location"
+        card.monthlyRent = "0.0"
+        
+        CoreDataForCards.shared.addCard(card)
+        cards.insert(card, at: 0)
+        tableView.reloadData()
     }
     
     func deleteCard(index: Int) {
-        do {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Card")
-            request.returnsObjectsAsFaults = false
-            
-            let results = try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.fetch(request)
-            
-            context.delete(results[cards.count - index - 1] as! NSManagedObject)
-            
-            try context.save()
-            
-            cards.remove(at: index)
-            tableView.reloadData()
-        }
-        catch {
-            print("CoreData error!!!")
-        }
+        
+        CoreDataForCards.shared.deleteCard(with: cards[index].storeId)
+        
+        cards.remove(at: index)
+        tableView.reloadData()
 
     }
     
     func editCard(index: Int, card: Card) {
-        do {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Card")
-            request.returnsObjectsAsFaults = false
-            let results = try appDelegate.persistentContainer.viewContext.fetch(request)
-            context.delete(results[cards.count - index - 1] as! NSManagedObject)
-            try context.save()
-            cards.remove(at: index)
-            
-            let coreCard = NSEntityDescription.insertNewObject(forEntityName: "Card", into: context)
-            coreCard.setValue(card.date, forKey: "date")
-            coreCard.setValue(card.isCurrent, forKey: "isCurrent")
-            coreCard.setValue(card.isFromEdit, forKey: "isFromEdit")
-            coreCard.setValue(card.landlord, forKey: "landlord")
-            coreCard.setValue(card.location, forKey: "location")
-            coreCard.setValue(card.monthlyRent, forKey: "monthlyRent")
-            try context.save()
-            cards.insert(card, at: 0)
-            
-            tableView.reloadData()
-        }
-        catch {
-            print("CoreData error!!!")
-        }
-
+        
+        CoreDataForCards.shared.deleteCard(with: card.storeId)
+        cards.remove(at: index)
+        
+        CoreDataForCards.shared.addCard(card)
+        cards.insert(card, at: 0)
+        
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -108,29 +65,10 @@ class CardsController: UITableViewController, CardDelegate {
 
         tableView.tableFooterView = UIView()
         
-        do {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Card")
-            request.returnsObjectsAsFaults = false
-            
-            let results = try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.fetch(request)
+        if let cardsFromCoreData = CoreDataForCards.shared.getCards() {
+            cards = cardsFromCoreData
+        }
         
-            for result in results as! [NSManagedObject] {
-                let card = Card()
-                
-                card.date = (result.value(forKey: "date") as? Date) ?? Date()
-                card.isCurrent = (result.value(forKey: "isCurrent") as? Bool) ?? false
-                card.isFromEdit = (result.value(forKey: "isFromEdit") as? Bool) ?? true
-                card.landlord = (result.value(forKey: "landlord") as? String) ?? ""
-                card.location = (result.value(forKey: "location") as? String) ?? ""
-                card.monthlyRent = (result.value(forKey: "monthlyRent") as? String) ?? ""
-
-                cards.insert(card, at: 0)
-            }
-            print("Count = \(results.count)")
-        }
-        catch {
-            
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,7 +84,7 @@ class CardsController: UITableViewController, CardDelegate {
             
             cell.location.text = cards[indexPath.row].location
             cell.landlord.text = cards[indexPath.row].landlord
-            cell.monthlyRent.text = cards[indexPath.row].monthlyRent
+            cell.monthlyRent.text = "\(cards[indexPath.row].monthlyRent) $"
            
             cell.date.text = formatter.string(from: cards[indexPath.row].date)
             
@@ -171,21 +109,12 @@ class CardsController: UITableViewController, CardDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if let editController = segue.destination as? EditController {
-            editController.delegate = self
-        }
-        else {
-            if let cell = sender as? CardCell, let mapController = segue.destination as? MapController, let index = tableView.indexPath(for: cell)?.row {
-                mapController.card = cards[index]
-            }
 
-        }
-        
         if segue.identifier == "Edit", let sender = sender as? UIView , let index = (indexPathForViewInCell(sender: sender)?.row), let editController = segue.destination as? EditController {
 
             editController.cellIndex = index
             editController.card = cards[index]
+            editController.delegate = self
             
         }
         

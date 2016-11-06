@@ -21,7 +21,6 @@ class EditController: UIViewController {
     @IBOutlet weak var monthlyRent: UITextField!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var currentImage: UIImageView!
-    @IBOutlet weak var deleteButton: UIBarButtonItem!
     
     
     @IBAction func pressedCancel(_ sender: UIBarButtonItem) {
@@ -40,15 +39,8 @@ class EditController: UIViewController {
             card.isCurrent = isCurrent
             card.date = datePicker.date
             
-            if card.isFromEdit == false {
-                card.isFromEdit = true
-                
-                delegate?.addNewCard(card: card)
-            }
-            else {
-                
-                delegate?.editCard(index: cellIndex, card: card)
-            }
+            delegate?.editCard(index: cellIndex, card: card)
+            
             
             let alertController = UIAlertController(title: "Successful", message: nil, preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default){ [unowned self] action in _ = self.navigationController?.popViewController(animated: true)})
@@ -88,6 +80,9 @@ class EditController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tap))
+        self.view.addGestureRecognizer(tapRecognizer)
+        
         location.text = card.location
         landlord.text = card.landlord
         monthlyRent.text = card.monthlyRent
@@ -96,8 +91,11 @@ class EditController: UIViewController {
         }
         datePicker.date = card.date
         isCurrent = card.isCurrent
-        deleteButton.isEnabled = card.isFromEdit
         
+    }
+    
+    func tap() {
+        self.monthlyRent.endEditing(true)
     }
     
     @IBAction func locationDonePressed(_ sender: AnyObject) {

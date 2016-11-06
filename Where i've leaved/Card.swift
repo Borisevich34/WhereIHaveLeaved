@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class Card {
     
@@ -15,7 +16,7 @@ class Card {
     var monthlyRent : String = ""
     
     var isCurrent : Bool = false
-    var isFromEdit : Bool = false
+    var storeId : NSManagedObjectID = NSManagedObjectID()
     
     var date = Date()
 }
